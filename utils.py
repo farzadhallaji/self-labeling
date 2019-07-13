@@ -91,68 +91,69 @@ def split_train_set(_train_data):
     return pd.DataFrame(labeled, columns=_train_data.columns), \
            pd.DataFrame(unlabeled, columns=_train_data.columns), _rate_p, _tuple_list_pn
 
-# def split_train_set(_train_data):
-#     labeled, unlabeled, calibration = [], [], []
-#
-#     size_dataset = len(_train_data)
-#     _train_x, _train_y = divide_xy(_train_data)
-#     _rate_p, _tuple_list_pn = get_rate_p(_train_y)
-#
-#     size_labeled_data = round(0.1 * size_dataset)
-#     size_calibration_data = round(0.33 * size_dataset)
-#     print('size_labeled_data: ', size_labeled_data, ' size_calibration_data: ', size_calibration_data)
-#     size_labeled_p_data = round(_rate_p * size_labeled_data)
-#     size_labeled_n_data = size_labeled_data - size_labeled_p_data
-#     print('size_labeled_p_data: ', size_labeled_p_data, ' size_labeled_n_data: ', size_labeled_n_data)
-#
-#     size_calibration_p_data = round(_rate_p * size_calibration_data)
-#     size_calibration_n_data = size_calibration_data - size_calibration_p_data
-#     print('size_calibration_p_data: ', size_calibration_p_data, ' size_calibration_n_data: ', size_calibration_n_data)
-#
-#     labeled_index = []
-#     calbration_index = []
-#     unlabeled_index = []
-#     selected_pl = 0
-#     selected_nl = 0
-#     selected_pc = 0
-#     selected_nc = 0
-#
-#     for i, cls in enumerate(_train_y):
-#         # if data point class's == 0 😚
-#         if cls == _tuple_list_pn[0][0]:
-#             if selected_pl < size_labeled_p_data:
-#                 labeled_index.append(i)
-#                 selected_pl += 1
-#             else:
-#                 if selected_pc < size_calibration_p_data:
-#                     calbration_index.append(i)
-#                     selected_pc += 1
-#                 else:
-#                     unlabeled_index.append(i)
-#         else:
-#             if selected_nl < size_labeled_n_data:
-#                 labeled_index.append(i)
-#                 selected_nl += 1
-#             else:
-#                 if selected_nc < size_calibration_n_data:
-#                     calbration_index.append(i)
-#                     selected_nc += 1
-#                 else:
-#                     unlabeled_index.append(i)
-#
-#     for i in labeled_index:
-#         labeled.append(_train_data.values[i])
-#
-#     for i in calbration_index:
-#         calibration.append(_train_data.values[i])
-#
-#     for i in unlabeled_index:
-#         unlabeled.append(_train_data.values[i])
-#
-#     #     print(size_dataset , size_labeled_data , size_unlabeled_data)
-#     #     print(rate_p , tuple_list_pn)
-#     #     print(size_labeled_p_data , size_labeled_n_data)
-#     #     print(selected_pl/(selected_pl+selected_nl),selected_pl, selected_nl)
-#
-#     return pd.DataFrame(calibration, columns=_train_data.columns), pd.DataFrame(labeled, columns=_train_data.columns), \
-#            pd.DataFrame(unlabeled, columns=_train_data.columns), _rate_p, _tuple_list_pn
+
+def split_train_calibration_set(_train_data):
+    labeled, unlabeled, calibration = [], [], []
+
+    size_dataset = len(_train_data)
+    _train_x, _train_y = divide_xy(_train_data)
+    _rate_p, _tuple_list_pn = get_rate_p(_train_y)
+
+    size_labeled_data = round(0.1 * size_dataset)
+    size_calibration_data = round(0.1 * size_dataset)
+    print('size_labeled_data: ', size_labeled_data, ' size_calibration_data: ', size_calibration_data)
+    size_labeled_p_data = round(_rate_p * size_labeled_data)
+    size_labeled_n_data = size_labeled_data - size_labeled_p_data
+    print('size_labeled_p_data: ', size_labeled_p_data, ' size_labeled_n_data: ', size_labeled_n_data)
+
+    size_calibration_p_data = round(_rate_p * size_calibration_data)
+    size_calibration_n_data = size_calibration_data - size_calibration_p_data
+    print('size_calibration_p_data: ', size_calibration_p_data, ' size_calibration_n_data: ', size_calibration_n_data)
+
+    labeled_index = []
+    calbration_index = []
+    unlabeled_index = []
+    selected_pl = 0
+    selected_nl = 0
+    selected_pc = 0
+    selected_nc = 0
+
+    for i, cls in enumerate(_train_y):
+        # if data point class's == 0 😚
+        if cls == _tuple_list_pn[0][0]:
+            if selected_pl < size_labeled_p_data:
+                labeled_index.append(i)
+                selected_pl += 1
+            else:
+                if selected_pc < size_calibration_p_data:
+                    calbration_index.append(i)
+                    selected_pc += 1
+                else:
+                    unlabeled_index.append(i)
+        else:
+            if selected_nl < size_labeled_n_data:
+                labeled_index.append(i)
+                selected_nl += 1
+            else:
+                if selected_nc < size_calibration_n_data:
+                    calbration_index.append(i)
+                    selected_nc += 1
+                else:
+                    unlabeled_index.append(i)
+
+    for i in labeled_index:
+        labeled.append(_train_data.values[i])
+
+    for i in calbration_index:
+        calibration.append(_train_data.values[i])
+
+    for i in unlabeled_index:
+        unlabeled.append(_train_data.values[i])
+
+    #     print(size_dataset , size_labeled_data , size_unlabeled_data)
+    #     print(rate_p , tuple_list_pn)
+    #     print(size_labeled_p_data , size_labeled_n_data)
+    #     print(selected_pl/(selected_pl+selected_nl),selected_pl, selected_nl)
+
+    return pd.DataFrame(calibration, columns=_train_data.columns), pd.DataFrame(labeled, columns=_train_data.columns), \
+           pd.DataFrame(unlabeled, columns=_train_data.columns), _rate_p, _tuple_list_pn
