@@ -157,3 +157,8 @@ def split_train_calibration_set(_train_data):
 
     return pd.DataFrame(calibration, columns=_train_data.columns), pd.DataFrame(labeled, columns=_train_data.columns), \
            pd.DataFrame(unlabeled, columns=_train_data.columns), _rate_p, _tuple_list_pn
+
+
+def changeconf():
+    config.confidence = 7
+    print(config.confidence)

@@ -166,6 +166,6 @@ class TcpClassifier(BaseEstimator, ClassifierMixin):
 		credibility = p.max(axis=1)
 		for i, idx in enumerate(label):
 			p[i, idx] = -np.inf
-		confidence = 1 - p.max(axis=1)
+		confidence = 1 - p.min(axis=1)
 
 		return np.array([label, confidence, credibility]).T

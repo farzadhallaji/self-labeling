@@ -5,7 +5,6 @@ import numpy as np
 class BaseSelfLabeling(ABC):
 
     def __init__(self, init_labeled_data_x, init_labeled_data_y, unlabeled_data_x, max_iterations=10):
-        # self.calibration_data = calibration_data
         self.init_labeled_data_x = init_labeled_data_x
         self.init_labeled_data_y = init_labeled_data_y
         self.unlabeled_data_x = unlabeled_data_x
